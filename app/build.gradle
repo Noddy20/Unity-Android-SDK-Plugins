@@ -5,6 +5,7 @@ plugins {
 
 android {
     compileSdk compileTargetSDK
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.arupakaman.unitypluginsapp"
