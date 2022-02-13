@@ -45,8 +45,6 @@ jobs:
       with:
         name: pluginbasicutils-release
         path: pluginbasicutils/build/outputs/aar/pluginbasicutils-release.aar
-    - name: Set release name
-      run: echo ::set-env name=RELEASE_NAME::$(echo ${GITHUB_REF:11})
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
