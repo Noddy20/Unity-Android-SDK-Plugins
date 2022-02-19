@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.arupakaman.pluginwebview">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application>
+
+        <!-- Override this activity in your Unity project Manifest for customization -->
+        <activity
+            android:name=".WebViewActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.WebViewTheme"
+            >
+            <!-- Customize the host and pathPrefix in your Unity project Manifest file (override the <activity>) for deep link handling, like below example -->
+            <!--<intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="https"/>
+                <data android:scheme="http"/>
+                <data android:host="github.com"/>
+                <data android:pathPrefix="/Noddy20"/>
+
+            </intent-filter>-->
+        </activity>
+    </application>
+
+</manifest>

@@ -1,0 +1,4 @@
+<resources>
+    <string name="err_msg_general_error_web_view">Something went wrong!\nSwipe down to refresh.</string>
+    <string name="refresh">Refresh</string>
+</resources>

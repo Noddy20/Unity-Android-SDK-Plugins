@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Override this Theme in your Unity project Manifest for customization -->
+    <style name="Theme.WebViewTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <item name="colorWebViewToolbarBackground">#00C43E</item>
+        <item name="colorWebViewToolbarText">#ffffff</item>
+        <item name="colorWebViewToolbarIcon">#ffffff</item>
+
+    </style>
+
+
+    <attr name="colorWebViewToolbarBackground" format="color|reference"/>
+    <attr name="colorWebViewToolbarText" format="color|reference"/>
+    <attr name="colorWebViewToolbarIcon" format="color|reference"/>
+
+</resources>

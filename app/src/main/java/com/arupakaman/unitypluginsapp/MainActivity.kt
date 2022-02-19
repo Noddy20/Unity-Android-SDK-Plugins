@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import com.arupakaman.pluginbasicutils.unity.UnityUtils
+import com.arupakaman.pluginwebview.WebViewActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,6 +29,8 @@ class MainActivity : AppCompatActivity() {
             result += "Battery ${UnityUtils.getBatteryPercentage(this)}\n"
             tvHello.text = result
         }
+
+        WebViewActivity.startWebViewActivity(this, "My GitHub Profile", "https://github.com/Noddy20", isToolbarEnabled = false)
 
     }
 }

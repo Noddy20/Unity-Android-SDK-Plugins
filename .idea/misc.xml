@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.29483695652173914" />
+        <entry key="pluginwebview/src/main/res/layout/activity_web_view.xml" value="0.328125" />
+        <entry key="pluginwebview/src/main/res/menu/menu_web_view.xml" value="0.328125" />
       </map>
     </option>
   </component>
