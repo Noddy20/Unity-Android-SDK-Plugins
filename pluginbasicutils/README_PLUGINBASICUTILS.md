@@ -19,12 +19,14 @@ This plugin provides basic Android util functions.
 
 ## Plugin Usage :
 
-In your unity project, you can use these plugins in your C# scripts.
+In your unity project, you can use this plugins in your C# scripts.
+Download the plugin .aar file (pluginbasicutils-debug.aar or pluginbasicutils-release.aar based on development environment) from releases or
+build it by yourself and paste the .aar file in your Unity project's `Assets/Plugins/Android` directory. (Follow main README.md for plugin setup info)
 
 ### Common code required to access all functions
 
 ```
-const string pluginName = "com.arupakaman.pluginbasicutils.unity.UnityUtils";             // Constant of util static class location
+    const string pluginName = "com.arupakaman.pluginbasicutils.unity.UnityUtils";          // Constant of util static class location
 
     AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
     AndroidJavaObject jo = jc.GetStatic<AndroidJavaObject>("currentActivity");            // jo will be used for Context param

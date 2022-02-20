@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Override these strings in your Unity project to customize the dialog text -->
+    <string name="dialog_message_rational">You need to grant required permission from device settings :</string>
+    <string name="dialog_action_rational_positive">Grant Now</string>
+    <string name="dialog_action_rational_negative">Not Now</string>
+    <string name="dialog_message_perm_mandatory">You need to grant required permission :</string>
+    <string name="dialog_action_perm_mandatory">Okay</string>
+
+</resources>

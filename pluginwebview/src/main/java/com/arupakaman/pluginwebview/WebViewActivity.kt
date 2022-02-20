@@ -3,10 +3,10 @@ package com.arupakaman.pluginwebview
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewTreeObserver
@@ -25,11 +25,9 @@ class WebViewActivity : AppCompatActivity() {
         private const val KEY_EXTRA_TITLE = "titleExtra"
         private const val KEY_EXTRA_URL = "urlExtra"
         private const val KEY_EXTRA_IS_TOOLBAR_ENABLED = "toolbarEnabled"
-        private const val KEY_EXTRA_IS_PORTRAIT_ONLY = "urlIsPortraitOnly"
+        private const val KEY_EXTRA_SCREEN_ORIENTATION = "screenOrientation"
         private const val KEY_EXTRA_IS_REFRESH_ENABLED = "urlIsRefreshEnabled"
         private const val KEY_EXTRA_IS_JAVA_SCRIPT_ENABLED = "jsEnabled"
-        private const val KEY_EXTRA_OBJ_NAME = "objName"
-        private const val KEY_EXTRA_STATE_METHOD_NAME = "methodName"
 
         @Keep
         @JvmStatic
@@ -39,23 +37,20 @@ class WebViewActivity : AppCompatActivity() {
             title: String,                                      // Toolbar Title
             url: String,
             isToolbarEnabled: Boolean = true,                   // Show/Hide Toolbar
-            isPortraitOnly: Boolean = false,                    // WebView Orientation Portrait Only or both
+            screenOrientation: Int = -1,                        // WebView Orientation : 0 = LANDSCAPE , 1 = PORTRAIT
             isRefreshEnabled: Boolean = true,                   // Show/Hide Refresh button in toolbar
             isJsEnabled: Boolean = true,                        // Enables JavaScript in WebView
-            objName: String? = null,                            // Object/Script class name which has method to get WebView Loading updates
-            methodName: String? = null                          // Method (with one String parameter) name that will receive WebView Loading updates in String : LOADING, ERROR, SUCCESS
         ) {
+            Log.d("WebViewAct", "startWebViewActivity launch $title $url $isToolbarEnabled $screenOrientation $isRefreshEnabled $isJsEnabled")
             with(mContext) {
                 startActivity(
                     Intent(this, WebViewActivity::class.java).apply {
                         putExtra(KEY_EXTRA_TITLE, title)
                         putExtra(KEY_EXTRA_URL, url)
                         putExtra(KEY_EXTRA_IS_TOOLBAR_ENABLED, isToolbarEnabled)
-                        putExtra(KEY_EXTRA_IS_PORTRAIT_ONLY, isPortraitOnly)
+                        putExtra(KEY_EXTRA_SCREEN_ORIENTATION, screenOrientation)
                         putExtra(KEY_EXTRA_IS_REFRESH_ENABLED, isRefreshEnabled)
                         putExtra(KEY_EXTRA_IS_JAVA_SCRIPT_ENABLED, isJsEnabled)
-                        putExtra(KEY_EXTRA_OBJ_NAME, objName)
-                        putExtra(KEY_EXTRA_STATE_METHOD_NAME, methodName)
                     }
                 )
             }
@@ -67,8 +62,6 @@ class WebViewActivity : AppCompatActivity() {
     private var isToolbarEnabled = true
     private var isRefreshEnabled = true
     private var isJsEnabled = true
-    private var objName: String? = null
-    private var stateMethodName: String? = null
 
     private var refreshMenuItem: MenuItem? = null
     private lateinit var webView: WebView
@@ -88,8 +81,6 @@ class WebViewActivity : AppCompatActivity() {
         intent?.let {
             toolbarTitle = it.getStringExtra(KEY_EXTRA_TITLE)
             webUrl = it.getStringExtra(KEY_EXTRA_URL)
-            objName = it.getStringExtra(KEY_EXTRA_OBJ_NAME)
-            stateMethodName = it.getStringExtra(KEY_EXTRA_STATE_METHOD_NAME)
             isToolbarEnabled = it.getBooleanExtra(KEY_EXTRA_IS_TOOLBAR_ENABLED, true)
             isRefreshEnabled = it.getBooleanExtra(KEY_EXTRA_IS_REFRESH_ENABLED, true)
             isJsEnabled = it.getBooleanExtra(KEY_EXTRA_IS_JAVA_SCRIPT_ENABLED, true)
@@ -100,11 +91,13 @@ class WebViewActivity : AppCompatActivity() {
                 webUrl = intent.data?.toString()
             }
 
-            if (it.getBooleanExtra(KEY_EXTRA_IS_PORTRAIT_ONLY, false)) {
+            val screenOr = it.getIntExtra(KEY_EXTRA_SCREEN_ORIENTATION, 1)
+            if (screenOr == 0 || screenOr == 1) {             // 0 = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE , 1 = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
                 @SuppressLint("SourceLockedOrientationActivity")
-                requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                requestedOrientation = screenOr
             }
         }
+        Log.d("WebViewAct", "startWebViewActivity onCreate $title $webUrl $isToolbarEnabled $isRefreshEnabled $isJsEnabled")
 
         if (webUrl?.trim().isNullOrEmpty()){
             finish()
@@ -169,7 +162,9 @@ class WebViewActivity : AppCompatActivity() {
             webView.reload()
         }
 
-        val onScrollChangedListener = ViewTreeObserver.OnScrollChangedListener{ swipeRefreshLayout.isEnabled = webView.scrollY == 0 }
+        val onScrollChangedListener = ViewTreeObserver.OnScrollChangedListener{
+            swipeRefreshLayout.isEnabled = (webView.scrollY == 0 && isRefreshEnabled)
+        }
         swipeRefreshLayout.viewTreeObserver.addOnScrollChangedListener(onScrollChangedListener)
 
         webView.webViewLoad(savedInstanceState)
@@ -217,14 +212,12 @@ class WebViewActivity : AppCompatActivity() {
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 progressBar.isVisible = true
                 tvErrorMsg.isVisible = false
-                sendStateToUnity("LOADING")
                 super.onPageStarted(view, url, favicon)
             }
 
             override fun onPageFinished(view: WebView?, url: String?) {
                 progressBar.isVisible = false
                 tvErrorMsg.isVisible = false
-                sendStateToUnity("SUCCESS")
                 super.onPageFinished(view, url)
             }
 
@@ -235,7 +228,6 @@ class WebViewActivity : AppCompatActivity() {
             ) {
                 progressBar.isVisible = false
                 tvErrorMsg.isVisible = true
-                sendStateToUnity("ERROR")
                 super.onReceivedError(view, request, error)
             }
 
@@ -247,14 +239,6 @@ class WebViewActivity : AppCompatActivity() {
             loadUrl(webUrl ?: "")
         else
             restoreState(savedInstanceState)       //Restore saved WebView State
-    }
-
-    private fun sendStateToUnity(state: String){  //state = LOADING, ERROR, SUCCESS in String
-        objName?.let { obj->
-            stateMethodName?.let { method->
-                UnityBridge.sendMessage(obj, method, state)
-            }
-        }
     }
 
 }

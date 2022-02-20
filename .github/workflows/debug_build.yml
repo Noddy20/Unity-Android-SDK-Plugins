@@ -50,6 +50,36 @@ jobs:
           name: pluginbasicutils-release
           path: pluginbasicutils/build/outputs/aar/pluginbasicutils-release.aar
 
+
+
+      - name: Upload debug pluginwebview
+        uses: actions/upload-artifact@v1
+        with:
+          name: pluginwebview-debug
+          path: pluginwebview/build/outputs/aar/pluginwebview-debug.aar
+
+      - name: Upload release pluginwebview
+        uses: actions/upload-artifact@v1
+        with:
+          name: pluginwebview-release
+          path: pluginwebview/build/outputs/aar/pluginwebview-release.aar
+
+
+
+      - name: Upload debug pluginpermissionhelper
+        uses: actions/upload-artifact@v1
+        with:
+          name: pluginpermissionhelper-debug
+          path: pluginpermissionhelper/build/outputs/aar/pluginpermissionhelper-debug.aar
+
+      - name: Upload release pluginpermissionhelper
+        uses: actions/upload-artifact@v1
+        with:
+          name: pluginpermissionhelper-release
+          path: pluginpermissionhelper/build/outputs/aar/pluginpermissionhelper-release.aar
+
+
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -62,7 +92,9 @@ jobs:
           prerelease: false
           body: |
             What is new :
-              - First Release
+              - WebView and Permission Helper plugins added
+
+
 
       - name: Release Upload pluginbasicutils-debug
         uses: actions/upload-release-asset@v1
@@ -82,4 +114,48 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: pluginbasicutils/build/outputs/aar/pluginbasicutils-release.aar
           asset_name: pluginbasicutils-release.aar
+          asset_content_type: application/aar
+
+
+
+      - name: Release Upload pluginwebview-debug
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: pluginwebview/build/outputs/aar/pluginwebview-debug.aar
+          asset_name: pluginwebview-debug.aar
+          asset_content_type: application/aar
+
+      - name: Release Upload pluginwebview-release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: pluginwebview/build/outputs/aar/pluginwebview-release.aar
+          asset_name: pluginwebview-release.aar
+          asset_content_type: application/aar
+
+
+
+      - name: Release Upload pluginpermissionhelper-debug
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: pluginpermissionhelper/build/outputs/aar/pluginpermissionhelper-debug.aar
+          asset_name: pluginpermissionhelper-debug.aar
+          asset_content_type: application/aar
+
+      - name: Release Upload pluginpermissionhelper-release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: pluginpermissionhelper/build/outputs/aar/pluginpermissionhelper-release.aar
+          asset_name: pluginpermissionhelper-release.aar
           asset_content_type: application/aar

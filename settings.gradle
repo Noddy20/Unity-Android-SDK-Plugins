@@ -10,3 +10,4 @@ rootProject.name = "Unity Plugins App"
 include ':app'
 include ':pluginbasicutils'
 include ':pluginwebview'
+include ':pluginpermissionhelper'

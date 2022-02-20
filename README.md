@@ -4,7 +4,9 @@ Unity Android SDK Plugins is an Open Source project that contains code to genera
 
 ## Available Plugins :
 
-- pluginbasicutils - Provides basic Android util functions i.e. to show a toast, to check network connectivity [know more](/pluginbasicutils/README_PLUGINBASICUTILS.md)
+- pluginbasicutils : Provides basic Android util functions i.e. to show a toast, to check network connectivity [know more](/pluginbasicutils/README_PLUGINBASICUTILS.md)
+- pluginwebview : Provides android WebView implementation  [know more](/pluginwebview/README_PLUGINWEBVIEW.md)
+- pluginpermissionhelper : Provides android permission helper functionality [know more](/pluginpermissionhelper/README_PLUGINPERMISSIONHELPER.md)
 
 ## Usage
 
@@ -23,7 +25,7 @@ Check [build.gradle](build.gradle) for current config.
 ### Request
 If you need an Android unity aar plugin create an issue with feature request or mail us at arupakamanstudios[AT]gmail[DOT]com.
 
-### I prefer a star than a cup of coffee
+### I prefer a :star: than a cup of :coffee:
 
 ## Licensing
 
